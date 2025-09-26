@@ -1,0 +1,51 @@
+--- # Docker installation file for ubuntu
+- hosts: all        # group
+  become: true      # become super-user
+ 
+ 
+  tasks:
+        - name: -----INSTALLING DEPENDECIES-----
+          apt:
+             name:
+               - curl
+               - lsb-release
+               - ca-certificates
+               - apt-transport-https
+               # you can add your more packages here, e.g.:
+               # - tree
+             state: present
+             update_cache: yes
+        
+        - name: -----CREATING KEYRING DIRECTORY-----
+          file:
+            path: /etc/apt/keyrings
+            state: directory
+            mode: '0755'  #rwx-xr-rx
+               
+        - name: -----ADDING DOCKER GPG KEY-----
+          get_url:
+            url: https://download.docker.com/linux/ubuntu/gpg
+            dest: /etc/apt/keyrings/docker.asc
+            mode: '0644'  #rw-r-r
+           
+        - name: -----ADDING DOCKER REPOSITORY-----
+          apt_repository:
+            repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+            state: present
+           
+        - name: -----INSTALLING DOCKER ENGINE PACKEGES-----
+          apt:
+             name:
+               - docker-ce
+               - docker-ce-cli
+               - containerd.io
+             state: present
+             update_cache: yes
+          notify: -----STARTING SERVICE----- 
+                
+  handlers:
+        - name: -----STARTING SERVICE-----
+          service:
+            name: docker
+            state: started   
+            enabled: true

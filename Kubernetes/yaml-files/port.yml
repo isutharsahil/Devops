@@ -1,0 +1,11 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: https
+spec:
+  containers:
+    - name: c001
+      image: apache2
+      ports:
+        - containerPort: 80
+

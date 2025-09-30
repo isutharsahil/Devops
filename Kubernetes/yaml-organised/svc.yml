@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: dymoservice
+spec:
+  selector:
+    name: deployment   # Match the label in your Deployment Pods
+  ports:
+    - port: 80          # Service port
+      targetPort: 80    # Container port
+  type: NodePort        # This is at spec level, NOT under selector
+

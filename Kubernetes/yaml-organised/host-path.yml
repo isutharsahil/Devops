@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hostpath
+spec:
+  containers:
+    - image: ubuntu
+      name: testc
+      command: ["/bin/bash", "-c", "sleep 15000"]
+      volumeMounts:
+        - mountPath: /tmp/hostpath
+          name: testvolume
+  volumes:
+    - name: testvolume
+      hostPath:
+        path: /home/vscode/Devops
+        # This is the new line that fixes the issue.
+        # It tells Kubernetes to create the directory if it's not there.
+        type: DirectoryOrCreate

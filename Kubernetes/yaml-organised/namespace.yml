@@ -1,0 +1,7 @@
+apiVersion: v1   # Namespace ek core API object hai, isliye v1 use hota hai
+kind: Namespace  # Yahaan hum ek Namespace resource define kar rahe hain
+metadata:
+  name: dev      # Namespace ka naam "dev" hoga
+  labels:
+    name: dev    # Is namespace pe ek label "name=dev" lag jayega
+

@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+ name: sahil
+spec:
+ schedule: "* * * * *"
+ jobTemplate:
+   spec:
+     template:
+       spec:
+         containers:
+            - image: ubuntu
+              name: sahil
+              command: ["/bin/bash", "-c", "echo sahil; sleep 5"]
+         restartPolicy: Never

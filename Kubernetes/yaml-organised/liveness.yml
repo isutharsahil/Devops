@@ -1,22 +1,23 @@
 apiVersion: v1
 kind: Pod
 metadata:
+  name: mylivenessprobe
   labels:
     test: liveness
-  name: mylivenessprobe
 spec:
   containers:
     - name: liveness
-      image: ubuntu
+      image: busybox   # better than ubuntu for probes
       args:
         - /bin/sh
         - -c
         - touch /tmp/healthy; sleep 1000
-      livenessProbe:                                          
+      livenessProbe:
         exec:
-          command:                                         
-            - cat                
+          command:
+            - cat
             - /tmp/healthy
-      initialDelaySeconds: 5          
-      periodSeconds: 5                                 
-      timeoutSeconds: 30             
+        initialDelaySeconds: 5    # <-- must be inside livenessProbe
+        periodSeconds: 5          # <-- same here
+        timeoutSeconds: 30        # <-- same here
+       
